@@ -107,7 +107,6 @@ Terminal 2: Frontend Client (Must be served via HTTP, not file://)
 cd client
 npx http-server -p 8080
 ```
-# Output: Available on [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 Testing the System:
 
