@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Push System</title>
+</head>
+
+<body>
+    <h1>Push Notification Demo</h1>
+    <button id="subscribeBtn">Subscribe to Notifications</button>
+
+    <script>
+        const PUBLIC_VAPID_KEY = 'BO3o6Pxo7Ss-ZPTBF6di1ZiCErZ3PiNuUiVH1fpptsnwADSawQ35Y8wWbJaBVGQeiA6KCSZ0S60qklsyGdmuI9U';
+
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+        async function subscribeUser() {
+            if (!('serviceWorker' in navigator)) {
+                return alert('Service Workers not supported in this browser');
+            }
+
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('Service Worker Registered');
+                const readyRegistration = await navigator.serviceWorker.ready;
+
+                const subscription = await readyRegistration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
+                });
+
+                console.log('Browser Subscription Object:', JSON.stringify(subscription));
+
+                await fetch('http://localhost:3001/subscribe', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        userId: "user_123",
+                        subscription: subscription
+                    }),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                });
+
+                alert('Subscribed successfully! Check your DB.');
+
+            } catch (err) {
+                console.error('Error subscribing:', err);
+                alert('Error: ' + err.message);
+            }
+        }
+
+        document.getElementById('subscribeBtn').addEventListener('click', subscribeUser);
+    </script>
+</body>
+
+</html>
