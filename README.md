@@ -8,7 +8,7 @@ It is designed to be browser-agnostic and compliant with the IETF Web Push stand
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 * **Custom Identity Management:** Implements VAPID (Voluntary Application Server Identification) to cryptographically sign every notification.
 * **Full Data Ownership:** Subscriber endpoints and encryption keys are stored in a local PostgreSQL database, not a third-party cloud console.
@@ -18,7 +18,7 @@ It is designed to be browser-agnostic and compliant with the IETF Web Push stand
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Runtime:** Node.js (Express)
 * **Database:** PostgreSQL (`pg` client)
@@ -28,7 +28,7 @@ It is designed to be browser-agnostic and compliant with the IETF Web Push stand
 
 ---
 
-## ⚙️ Architecture Workflow
+## Architecture Workflow
 
 1.  **Subscription:** The Frontend requests permission from the browser and generates a unique Push Subscription Object (Endpoint + Keys).
 2.  **Storage:** This subscription object is sent to the Backend API and stored in PostgreSQL.
@@ -38,7 +38,7 @@ It is designed to be browser-agnostic and compliant with the IETF Web Push stand
 
 ---
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 ### 1. Prerequisites
 * Node.js (v14+)
